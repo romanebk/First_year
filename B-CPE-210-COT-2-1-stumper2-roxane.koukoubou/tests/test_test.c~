@@ -1,0 +1,33 @@
+/*
+** EPITECH PROJECT, 2025
+** unitests                  
+** File description:
+** unit tests
+*/
+
+#include <criterion/criterion.h>
+#include <criterion/redirect.h>
+#include "../my.h"
+
+void redirect_all_std(void)
+{
+    cr_redirect_stdout();
+    cr_redirect_stderr();
+}
+
+Test(help, help_test, .init = redirect_all_std)
+{
+    char str1[10] = "papaDmaman";
+    char str2[10] = "lpapamaman";
+    int r1 = my_str_islower(str1);
+    int r2 = my_str_islower(str2);
+    cr_assert_eq(r1, -1);
+    cr_assert_eq(r2, 1);
+}
+
+Test(help2, help_test, .init = redirect_all_std)
+{
+    char str1[10] = "1234k56789";
+    int r1 = str_isnumber(str1);
+    cr_assert_eq(r1, -1);
+}

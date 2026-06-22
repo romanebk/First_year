@@ -1,0 +1,12 @@
+diff --git a/Pipeto/src/commands/check_cooling_pressure.c b/Pipeto/src/commands/check_cooling_pressure.c
+index 6577c9f..9cea2e8 100644
+--- a/Pipeto/src/commands/check_cooling_pressure.c
++++ b/Pipeto/src/commands/check_cooling_pressure.c
+@@ -41,6 +41,7 @@ void check_cooling_pressure()
+     sleep(1);
+     log_pressure_status(data);
+     sleep(3);
++    //free(data);
+     if (strcmp(data, "Pressure OK"))
+         printf("Sensitive Info: %s\n", sensitive_info);
+     snprintf(temp_buffer, sizeof(temp_buffer),

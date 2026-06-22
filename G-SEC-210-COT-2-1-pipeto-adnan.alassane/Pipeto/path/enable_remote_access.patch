@@ -1,0 +1,443 @@
+diff --git a/Pipeto/.pipeto_history b/Pipeto/.pipeto_history
+index b0811d3..e69de29 100644
+--- a/Pipeto/.pipeto_history
++++ b/Pipeto/.pipeto_history
+@@ -1,72 +0,0 @@
+-ls
+-help
+-ls
+-help
+-init_reactor
+-activate_emergency_protocols
+-void activate_emergency_protocols()
+-{
+-    char input[100];
+-    printf("Enter emergency password: ");
+-    fgets(input, sizeof(input), stdin);
+-    input[strcspn(input, "\n")] = 0;
+-    if (strlen(input) == 0) {
+-        printf("No password entered, emergency protocols not activated.\n");
+-        return;
+-    }
+-    if (strcmp(input, "admin123") == 0) {
+-        printf("{Emergency protocols activated, you are now admin !}\n");
+-        IS_ADMIN = true;
+-    }
+-    return;
+-}activate_emergency_protocols
+-help
+-activate_emergency_protocols
+-HGFdsdfghjklmù
+-ùmlkjhgfdsdfghjklmù
+-ùmoiuytesrdtfgyhuijokpl^lpkojihugytdrxsetdyugihojpk^lmlkhgyftdcfvyguhijok;plkjohgfdtrsrdtfuygihojpk^lkjhgfkk,jhgfdofigybufnid,ok;sp^pkoj,nihugyfcdtxcyfrtvubiopôiuyvctrxyctuviuboipopiuytcrxctè_vyçuhijpok^pjihugftyrdtertf_gyçhujiç_ècr-xe(wx-rcètf_yg
+-çuohpijôophgçif_-dè(s-'èd(_-fçègà_pyçûàpouiytxrrrr
+-activate_emergency_protocols
+-TFVYGBUHNIJ,OKJNHIGUBFYVDCTsxrdctfvygbuhnij,okojihnubgyvftdcrsxerdctfvygbuhnij,okojihugyvfctdxrsdctfvygbuhnij,ok;pojinhbugvyfcdtxrswerxdctfvygbuhnij,ok;plko,çnh_bgèvf-cd(xswqesxrdctfvygbuhinjo,k;pl;kojihugbyvftdcrsxdctfvygbuhinj,ok;poj,inhugbyfvtcdxrswx
+-dctfvgbhnjk
+-activate_emergency_protocols
+-jjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjj
+-jjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjj
+-jjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjj
+-!
+-[E!
+-4!
+-!4
+-!9
+-!8
+-help
+-!1
+-!5
+-activate_emergency_protocols
+-lllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllll
+-activate_emergency_protocols
+-llllllllllllllllllllllllllllllllllll
+-activate_emergency_protocols
+-llllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllconfigure_cooling_system
+-configure_cooling_system
+-x
+-ls
+-help
+-init_reactor
+-help
+-lls
+-help
+-activate_emergency_protocols
+-help
+-activate_emergency_protocols
+-help
+-activate_emergency_protocols
+-help
+-activate_emergency_protocols
+-quit
+-activate_emergency_protocols
+-load_fuel_rods
+-help
+-load_fuel_rods
+-check_cooling_pressure.c
+-check_cooling_pressure
+diff --git a/Pipeto/Makefile b/Pipeto/Makefile
+index 1e208dd..ab3cb35 100644
+--- a/Pipeto/Makefile
++++ b/Pipeto/Makefile
+@@ -45,6 +45,8 @@ CFLAGS += -Wall -Wextra -fPIC -fno-stack-protector
+ 
+ CPPFLAGS += -iquote ./include
+ 
++TEST	=	src/commands/activate_emergency_protocols.c	\
++
+ all: $(NAME)
+ 
+ $(B_OBJ): CFLAGS += -Wno-implicit-function-declaration -fno-pie
+@@ -67,6 +69,12 @@ fclean: clean
+ 	rm -f *~
+ 	rm -f *#
+ 
++unit_tests:	fclean all clean
++		gcc -o unit_test $(TEST) tests/test_pipeto.c $(OPT)
++
++tests_run:	unit_tests
++		./unit_test
++
+ re: fclean all
+ 
+ .PHONY: all clean fclean re
+diff --git a/Pipeto/include/pipeto.h b/Pipeto/include/pipeto.h
+index fd3649e..4f3e411 100644
+--- a/Pipeto/include/pipeto.h
++++ b/Pipeto/include/pipeto.h
+@@ -13,6 +13,7 @@
+ extern bool IS_ADMIN;
+ #define UNUSED __attribute__((unused))
+ 
++char *hash(char *str);
+ int my_console(void);
+ 
+ void init_reactor();
+diff --git a/Pipeto/src/commands/activate_emergency_protocols.c b/Pipeto/src/commands/activate_emergency_protocols.c
+index dffbdfc..d96c40d 100644
+--- a/Pipeto/src/commands/activate_emergency_protocols.c
++++ b/Pipeto/src/commands/activate_emergency_protocols.c
+@@ -9,22 +9,22 @@
+ #include <stdio.h>
+ #include <string.h>
+ #include <stdbool.h>
+-#include "pipeto.h"
++#include "../../include/pipeto.h"
+ 
+-char *hash(char *key)
++char *hash(char *str)
+ {
+-    key = strdup(key);
+-    for (int i = 0; key[i] != '\0'; i++)
+-        key[i] = key[i] + i - strlen(key);
+-    return key;
++    str = strdup(str);
++    for (int i = 0; str[i] != '\0'; i++)
++        str[i] = str[i] + i - strlen(str);
++    return str;
+ }
+ 
+ void activate_emergency_protocols()
+ {
+     char input[100];
+-    char *pass = getenv("EMERGENCY_PASSWD");
++    char *password = getenv("EMERGENCY_PASSWD");
+ 
+-    if (pass == NULL)
++    if (password == NULL || !password)
+         return;
+     printf("Enter emergency password: ");
+     fgets(input, sizeof(input), stdin);
+@@ -34,7 +34,7 @@ void activate_emergency_protocols()
+         printf(" protocols not activated.\n");
+         return;
+     }
+-    if (strcmp(hash(input), hash(pass)) == 0) {
++    if (strcmp(hash(input), hash(password)) == 0) {
+         printf("{Emergency protocols activated, you are now admin !}\n");
+         IS_ADMIN = true;
+     }
+diff --git a/Pipeto/src/commands/check_cooling_pressure.c b/Pipeto/src/commands/check_cooling_pressure.c
+index 6577c9f..9cea2e8 100644
+--- a/Pipeto/src/commands/check_cooling_pressure.c
++++ b/Pipeto/src/commands/check_cooling_pressure.c
+@@ -41,6 +41,7 @@ void check_cooling_pressure()
+     sleep(1);
+     log_pressure_status(data);
+     sleep(3);
++    //free(data);
+     if (strcmp(data, "Pressure OK"))
+         printf("Sensitive Info: %s\n", sensitive_info);
+     snprintf(temp_buffer, sizeof(temp_buffer),
+diff --git a/Pipeto/src/commands/check_cooling_pressure.c~ b/Pipeto/src/commands/check_cooling_pressure.c~
+deleted file mode 100644
+index 778da02..0000000
+--- a/Pipeto/src/commands/check_cooling_pressure.c~
++++ /dev/null
+@@ -1,50 +0,0 @@
+-/*
+-** EPITECH PROJECT, 2024
+-** Pipeto
+-** File description:
+-** check_cooling_pressure
+-*/
+-
+-#include <stdlib.h>
+-#include <stdio.h>
+-#include <string.h>
+-
+-static void load_data(char *data)
+-{
+-    strcpy(data, "Pressure OK");
+-}
+-
+-static void log_pressure_status(const char *status)
+-{
+-    printf("Cooling pressure status: %s\n", status);
+-}
+-
+-static void simulate_sensor_reading()
+-{
+-    printf("Simulating sensor reading...\n");
+-    sleep(1);
+-    printf("Sensor reading complete.\n");
+-}
+-
+-void check_cooling_pressure()
+-{
+-    char *data = (char *)malloc(16);
+-    char sensitive_info[32] = "{Sensitive Data}";
+-    char temp_buffer[32];
+-
+-    load_data(data);
+-    printf("Cooling pressure check in progress...\n");
+-    sleep(2);
+-    simulate_sensor_reading();
+-    printf("Checking cooling pressure...\n");
+-    sleep(1);
+-    log_pressure_status(data);
+-    sleep(3);
+-    if (strcmp(data, "Pressure OK"))
+-        printf("Sensitive Info: %s\n", sensitive_info);
+-    snprintf(temp_buffer, sizeof(temp_buffer),
+-    "Temporary data: %d", rand() % 100);
+-    printf("Temporary buffer: %s\n", temp_buffer);
+-    simulate_sensor_reading();
+-    printf("Cooling pressure check complete.\n");
+-}
+diff --git a/Pipeto/src/commands/check_reactor_status.c b/Pipeto/src/commands/check_reactor_status.c
+index 9dcac98..6747e08 100644
+--- a/Pipeto/src/commands/check_reactor_status.c
++++ b/Pipeto/src/commands/check_reactor_status.c
+@@ -8,21 +8,28 @@
+ #include <stdio.h>
+ #include <unistd.h>
+ 
++static void cut_encrypt_message(const char *input,
++    char *output, int shift, int *i)
++{
++    if (input[*i] >= 'A' && input[*i] <= 'Z')
++        output[*i] = ((input[*i] - 'A' + shift) % 26) + 'A';
++    else if (input[*i] >= 'a' && input[*i] <= 'z')
++        output[*i] = ((input[*i] - 'a' + shift) % 26) + 'a';
++    else
++        output[*i] = input[*i];
++}
++
+ void encrypt_message(const char *input, char *output, int shift)
+ {
+-    for (int i = 0; input[i] != '\0'; i++) {
+-        if (input[i] >= 'A' && input[i] <= 'Z') {
+-            output[i] = ((input[i] - 'A' + shift) % 26) + 'A';
+-        } else if (input[i] >= 'a' && input[i] <= 'z') {
+-            output[i] = ((input[i] - 'a' + shift) % 26) + 'a';
+-        } else {
+-            output[i] = input[i];
+-        }
+-    }
++    for (int i = 0; input[i] != '\0'; i++)
++        cut_encrypt_message(input, output, shift, &i);
+ }
+ 
+ void check_reactor_status()
+ {
++    const char *message = "ReactorStatusOK";
++    char encrypted_message[50] = {0};
++
+     printf("Starting reactor status check...\n");
+     sleep(1);
+     printf("Checking core temperature...\n");
+@@ -35,15 +42,9 @@ void check_reactor_status()
+     sleep(1);
+     printf("Checking radiation levels...\n");
+     sleep(2);
+-    printf("Radiation levels: Safe\n\n");
+-
+-    printf("Encrypting critical reactor data...\n");
+-    const char *message = "ReactorStatusOK";
+-    char encrypted_message[50] = {0};
++    printf("Radiation levels: Safe\n\nEncrypting critical reactor data...\n");
+     encrypt_message(message, encrypted_message, 3);
+     sleep(1);
+-    printf("Encrypted message: %s\n\n", encrypted_message);
+-
+-    printf("Reactor status: OK\n");
+-    printf("Reactor status check complete.\n\n");
+-}
+\ No newline at end of file
++    //printf("Encrypted message: %s\n\n", encrypted_message);
++    printf("Reactor status: OK\nReactor status check complete.\n\n");
++}
+diff --git a/Pipeto/src/commands/configure_cooling_system.c b/Pipeto/src/commands/configure_cooling_system.c
+index 78afcce..5284b8e 100644
+--- a/Pipeto/src/commands/configure_cooling_system.c
++++ b/Pipeto/src/commands/configure_cooling_system.c
+@@ -4,7 +4,7 @@
+ ** File description:
+ ** configure_cooling_system
+ */
+-
++#include "pipeto.h"
+ #include <stdio.h>
+ #include <stdlib.h>
+ #include <string.h>
+@@ -14,6 +14,7 @@ void configure_cooling_system()
+     char *config_file = "Data/cooling_config.txt";
+     char buffer[64];
+     FILE *file = fopen(config_file, "r");
++    int result = 0;
+ 
+     if (!file) {
+         printf("Error: Unable to open configuration file: %s\n", config_file);
+@@ -23,14 +24,8 @@ void configure_cooling_system()
+     fread(buffer, 1, sizeof(buffer) - 1, file);
+     buffer[sizeof(buffer) - 1] = '\0';
+     fclose(file);
+-
+     printf("Applying configuration: %s\n", buffer);
+-
+-    int result = system(buffer);
+-
+-    if (result == 0) {
+-        printf("Configuration applied successfully.\n");
+-    } else {
+-        printf("Failed to apply configuration. Command returned: %d\n", result);
+-    }
++    result = system(buffer);
++    (result == 0) ? printf("Configuration applied successfully.\n") :
++    printf("Failed to apply configuration. Command returned: %d\n", result);
+ }
+diff --git a/Pipeto/src/commands/enable_remote_access.c b/Pipeto/src/commands/enable_remote_access.c
+index e9d80bf..06749fc 100644
+--- a/Pipeto/src/commands/enable_remote_access.c
++++ b/Pipeto/src/commands/enable_remote_access.c
+@@ -29,26 +29,28 @@ void log_access_attempt(const char *status)
+     printf("[%s] Remote access status: %s\n", timestamp, status);
+ }
+ 
++void enable_remote_access_cut(int enabled, char *dummy_urls)
++{
++    printf("Enabling remote access...\n");
++    perform_network_call(dummy_urls);
++    log_access_attempt("ENABLED");
++    enabled = 1;
++    printf("Remote access successfully enabled.\n\n");
++    printf("Performing status check...\n");
++    perform_network_call(dummy_urls);
++}
++
+ void enable_remote_access()
+ {
+     static int enabled = 0;
+-
+     const char *dummy_urls[] = {
+         "http://example.com/api/enable",
+         "http://example.com/api/disable",
+         "http://example.com/api/status"
+     };
+-
+     printf("Initializing remote access procedure...\n\n");
+-
+     if (enabled == 0) {
+-        printf("Enabling remote access...\n");
+-        perform_network_call(dummy_urls[0]);
+-        log_access_attempt("ENABLED");
+-        enabled = 1;
+-        printf("Remote access successfully enabled.\n\n");
+-        printf("Performing status check...\n");
+-        perform_network_call(dummy_urls[2]);
++        enable_remote_access_cut(enabled, dummy_urls[0]);
+         printf("Status check complete.\n\n");
+     } else {
+         printf("Disabling remote access...\n");
+diff --git a/Pipeto/src/commands/history.c b/Pipeto/src/commands/history.c
+index 8b6a765..7bc3100 100644
+--- a/Pipeto/src/commands/history.c
++++ b/Pipeto/src/commands/history.c
+@@ -18,11 +18,9 @@ void history_init(void)
+     
+     history = malloc(sizeof(char *) * MAX_HISTORY_SIZE);
+     if (!history)
+-        return;
+-        
++        return;        
+     history_size = MAX_HISTORY_SIZE;
+     history_count = 0;
+-    
+     file = fopen(HISTORY_FILE, "r");
+     if (file) {
+         while (fgets(line, sizeof(line), file) && history_count < MAX_HISTORY_SIZE) {
+@@ -39,22 +37,21 @@ void history_init(void)
+ 
+ void history_add(const char *command)
+ {
++    FILE *file = fopen(HISTORY_FILE, "w");
++
+     if (!command || strlen(command) == 0 ||
+-        (history_count > 0 && strcmp(history[history_count - 1], command) == 0))
++        (history_count > 0 &&
++        strcmp(history[history_count - 1], command) == 0))
+         return;
+-
+     if (history_count == history_size) {
+         free(history[0]);
+         for (int i = 0; i < history_count - 1; i++)
+             history[i] = history[i + 1];
+         history_count--;
+     }
+-
+     history[history_count] = strdup(command);
+     if (history[history_count])
+         history_count++;
+-
+-    FILE *file = fopen(HISTORY_FILE, "w");
+     if (file) {
+         for (int i = 0; i < history_count; i++)
+             fprintf(file, "%s\n", history[i]);
+@@ -64,11 +61,11 @@ void history_add(const char *command)
+ 
+ void history_clear(void)
+ {
++    FILE *file = fopen(HISTORY_FILE, "w");
++
+     for (int i = 0; i < history_count; i++)
+         free(history[i]);
+     history_count = 0;
+-
+-    FILE *file = fopen(HISTORY_FILE, "w");
+     if (file)
+         fclose(file);
+ }
+@@ -99,4 +96,4 @@ const char *history_get(int index)
+ int history_count_get(void)
+ {
+     return history_count;
+-}
+\ No newline at end of file
++}
+diff --git a/Pipeto/src/path/to/some-changes.patch b/Pipeto/src/path/to/some-changes.patch
+deleted file mode 100644
+index e69de29..0000000
+diff --git a/some-changes.patch b/some-changes.patch
+deleted file mode 100644
+index e69de29..0000000

@@ -1,0 +1,22 @@
+/*
+** EPITECH PROJECT, 2025
+** pipeto
+** File description:
+** units tests
+*/
+
+#include <criterion/criterion.h>
+#include <criterion/redirect.h>
+#include "../include/pipeto.h"
+
+void redirect_all_std(void)
+{
+    cr_redirect_stdout();
+    cr_redirect_stderr();
+}
+
+Test(help1, help1_test, .init = redirect_all_std)
+{
+    char *r = hash("admin123");
+    cr_assert_eq(r, "Y]gdj.02");
+}

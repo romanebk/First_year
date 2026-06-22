@@ -1,0 +1,23 @@
+/*
+** EPITECH PROJECT, 2024
+** my.h
+** File description:
+** my.h
+*/
+
+#include <unistd.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <unistd.h>
+#include <string.h>
+
+#ifndef MY_H
+   #define MY_H
+
+void generate_synthetic_data(int n, int i0, int i1);
+int main(int argc, char **argv);
+void calcul_population(int n, double k);
+int check_arg(char *str);
+int usage(int argc, char **argv);
+
+#endif

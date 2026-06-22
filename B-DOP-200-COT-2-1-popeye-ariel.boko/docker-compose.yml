@@ -1,0 +1,81 @@
+version: '3.8'
+
+services:
+  poll:
+    build: ./poll
+    ports:
+      - "5000:80"
+    restart: always
+    depends_on:
+      - redis
+    environment:
+      - REDIS_HOST=redis
+    networks:
+      - poll-tier
+
+  redis:
+    image: redis:7
+    expose:
+      - "6379"
+    restart: always
+    networks:
+      - poll-tier
+      - back-tier
+  
+  worker:
+    build: ./worker
+    restart: always
+    depends_on:
+      - db
+      - redis
+    networks:
+      - back-tier
+    environment:
+      - REDIS_HOST=redis
+      - POSTGRES_HOST=db
+      - POSTGRES_PORT=5432
+      - POSTGRES_DB=data_base
+      - POSTGRES_USER=Arielbk18
+      - POSTGRES_PASSWORD=Sept@2006
+
+  db:
+    image: postgres:16
+    volumes:
+      - ./schema.sql:/docker-entrypoint-initdb.d/init-user-db/schema.sql
+      - db-data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    networks:
+      - result-tier
+      - back-tier
+    restart: always
+    environment:
+      - POSTGRES_DB=data_base
+      - POSTGRES_USER=Arielbk18
+      - POSTGRES_PASSWORD=Sept@2006
+  
+  result:
+    build: ./result
+    ports:
+      - "5001:80"
+    restart: always
+    depends_on:
+      - db
+    networks:
+      - result-tier
+    environment:
+      - POSTGRES_HOST=db
+      - POSTGRES_PORT=5432
+      - POSTGRES_DB=data_base
+      - POSTGRES_USER=Arielbk18
+      - POSTGRES_PASSWORD=Sept@2006
+
+networks:
+  poll-tier:
+    driver: bridge
+  result-tier:
+    driver: bridge
+  back-tier:
+    driver: bridge
+volumes:
+  db-data:
